@@ -7,12 +7,18 @@
   <div class="row">
     <div class="col"> 
       <table class="table table-hover">
-    {% for task in data %}
-        <thead><tr><th>{{task['catagory']}}</th></tr></thead>
-        {% for value in catagory['values'] %}
-        <tbody><tr><td>{{value}}</td></tr></tbody>
+        <thead><tr>
+        {% for column in data['columns'] %}
+          <th>{{column}}</th>
         {% endfor %}
-    {% endfor %}
+        </tr></thead>
+        {% for value_list in data['values'] %}
+          <tbody><tr>
+            {% for value in value_list %}
+            <td>{{value}}</td>
+            {% endfor %}
+          </tr></tbody>
+        {% endfor %}
       </table>
     </div>   
   </div>
