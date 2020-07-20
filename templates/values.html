@@ -1,16 +1,14 @@
 {% extends "layout.html" %}
-{% block head %}
-{% endblock %}
 {% block title %}Values{% endblock %}
 {% block content %}
 <div class="container "id="content">
   <div class="row">
     {% for catagory in data %}
     <div class="col">
-      <table class="table table-hover">
+      <table class="table table-hover table-draggable" draggable="true">
         <thead><tr><th>{{catagory['catagory']}}</th></tr></thead>
         {% for value in catagory['values'] %}
-        <tbody><tr><td>{{value}}</td></tr></tbody>
+        <tbody><tr class="value-draggable" draggable="true"><td>{{value}}</td></tr></tbody>
         {% endfor %}
       </table>
     </div>
