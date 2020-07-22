@@ -1,5 +1,16 @@
 const valuesDrag = document.querySelectorAll('.value-draggable')
 const tables = document.querySelectorAll('#value-body')
+// const editButtons = document.querySelectorAll('#value-button')
+
+// editButtons.forEach(editButtons => {
+//   editButtons.addEventListener('click', e => {
+
+//   })
+// })
+
+
+
+
 
 valuesDrag.forEach(valuesDrag => {
     valuesDrag.addEventListener('dragstart', () => {
