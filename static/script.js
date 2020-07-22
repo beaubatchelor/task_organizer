@@ -1,5 +1,5 @@
 const valuesDrag = document.querySelectorAll('.value-draggable')
-const tables = document.querySelectorAll('tbody')
+const tables = document.querySelectorAll('#value-body')
 
 valuesDrag.forEach(valuesDrag => {
     valuesDrag.addEventListener('dragstart', () => {
