@@ -1,26 +1,27 @@
 const valuesDrag = document.querySelectorAll('.value-draggable')
 const tables = document.querySelectorAll('#value-body')
-// const editButtons = document.querySelectorAll('#value-button')
-
-// editButtons.forEach(editButtons => {
-//   editButtons.addEventListener('click', e => {
-
-//   })
-// })
+const valueRows = document.querySelectorAll('div#value-row')
 
 
-
+valueRows.forEach(valueRow => {
+  let valueTextEle = valueRow.querySelector('div#value-changeable')
+  let valueButtonEle = valueRow.querySelector('button#value-edit-button')
+  let valueText = valueTextEle.innerHTML
+  
+  valueButtonEle.addEventListener('click', () => {
+    valueTextEle.outerHTML = '<div class="col-9" id="value-changeable"><input type="text" placeholder="' + valueText + '"></div>'
+    valueButtonEle.outerHTML = '<button id="value-save-button" type="button">Save</button>'
+  })
+})
 
 
 valuesDrag.forEach(valuesDrag => {
     valuesDrag.addEventListener('dragstart', () => {
         valuesDrag.classList.add('dragging')
-        console.log(valuesDrag.outerHTML)
     })
 
     valuesDrag.addEventListener('dragend', () => {
         valuesDrag.classList.remove('dragging')     
-        console.log(valuesDrag.outerHTML)
     })
 })
 

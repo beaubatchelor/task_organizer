@@ -11,9 +11,9 @@
           <tr>
             <th>
               <div class="container">
-                <div class="row">
-                  <div class="col-9"><h5>{{catagory['catagory']}}</h5></div>
-                  <div class="col-3"><button id="value-button">Edit</button></div>
+                <div class="row" id="value-row">
+                  <div class="col-9" id="value-changeable"><h5>{{catagory['catagory']}}</h5></div>
+                  <div class="col-3"><button id="value-edit-button" type="button">Edit</button></div>
                 </div>
               </div>
             </th>
@@ -24,9 +24,9 @@
           <tr class="value-draggable" draggable="true">
             <td>
               <div class="container">
-                <div class="row">
-                  <div class="col-9">{{value}}</div>
-                  <div class="col-3"><button id="value-button">Edit</button></div>
+                <div class="row" id="value-row">
+                  <div class="col-9" id="value-changeable">{{value}}</div>
+                  <div class="col-3"><button id="value-edit-button" type="button">Edit</button></div>
                 </div>
               </div>
             </td>
