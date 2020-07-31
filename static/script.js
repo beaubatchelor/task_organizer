@@ -26,8 +26,6 @@ function saveClick(valueRow) {
   newButtonEle.addEventListener('click', () => {editClick(valueRow)});
 };
 
-
-
 valueRows.forEach(valueRow => {
   const valueButtonEle = valueRow.querySelector('button#value-edit-button')
   valueButtonEle.addEventListener('click', () => {editClick(valueRow)})
