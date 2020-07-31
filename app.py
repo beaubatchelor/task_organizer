@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify, redirect
 from flask_pymongo import PyMongo
 import datetime as dt
 from config import user, psw
+from pprint import pprint as pp
 
 app.config["MONGO_URI"] = f"mongodb+srv://{user}:{psw}@valutask.wqycs.azure.mongodb.net/Site" ## production connection
 mongo = PyMongo(app)
@@ -48,11 +49,15 @@ def update():
     new_value = result[old_value]
     
     user_data = mongo.db.User.find_one({'user': 'test_user'}) ##production data
-    values_data = user_data['values_data']['values']
-    old_index = values_data.index(old_value)
-    values_data[old_index] = new_value
+    values_data = user_data['values_data']
 
-    print(values_data)
+    for catagory in values_data:
+        val_list = catagory['values']
+        if old_value in val_list:
+            old_index = val_list.index(old_value)
+            catagory['values'][old_index] = new_value
+            # pp(user_data)
+            mongo.db.User.replace_one({'user': 'test_user'}, user_data)
 
     return redirect('/values')
 

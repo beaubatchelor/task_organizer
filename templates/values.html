@@ -1,50 +1,50 @@
 {% extends "layout.html" %}
 {% block title %}Values{% endblock %}
 {% block content %}
-<div class="container "id="content">
-  <div class="row">
-    {% for catagory in data %}
-    <div class="col">
-      <table class="table table-hover table-draggable" draggable="true">
-        <thead id="value-head">
-          <tr>
-            <th>
-              <div class="container">
-                <div class="row" id="value-row">
-                  <div class="col-9" id="value-changeable" name='catagories'>{{catagory['catagory']}}</div>
-                  <div class="col-3"><button id="value-edit-button" type="button">Edit</button></div>
+<form action="/update" method="POST">
+  <div class="container "id="content">
+    <div class="row">
+      {% for catagory in data %}
+      <div class="col">
+        <table class="table table-hover table-draggable" draggable="true">
+          <thead id="value-head">
+            <tr>
+              <th>
+                <div class="container">
+                  <div class="row" id="value-row">
+                    <div class="col-9" id="value-changeable">{{catagory['catagory']}}</div>
+                    <div class="col-3"><button id="value-edit-button" type="button">Edit</button></div>
+                  </div>
                 </div>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        {% for value in catagory['values'] %}
-        <tbody id="value-body">
-          <tr class="value-draggable" draggable="true">
-            <td>
-              <div class="container">
-                <div class="row" id="value-row">
-                  <div class="col-9" id="value-changeable" name='values'>{{value}}</div>
-                  <div class="col-3"><button id="value-edit-button" type="button">Edit</button></div>
+              </th>
+            </tr>
+          </thead>
+          {% for value in catagory['values'] %}
+          <tbody id="value-body">
+            <tr class="value-draggable" draggable="true">
+              <td>
+                <div class="container">
+                  <div class="row" id="value-row">
+                    <div class="col-9" id="value-changeable">{{value}}</div>
+                    <div class="col-3"><button id="value-edit-button" type="button">Edit</button></div>
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-        {% endfor %}
-      </table>
+              </td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+      {% endfor %}   
     </div>
-    {% endfor %}   
-  </div>
-  <form action="/update" method="POST">
     <div class="row">
       <div class="col-3">
         <button type="submit">Save Values</button>
       </div>
       <div class="col-3">
-        <input type='text' name='test'>
+        <input type='text' name='New thing'>
       </div>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 {% endblock %}

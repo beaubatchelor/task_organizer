@@ -7,8 +7,8 @@ function editClick(valueRow) {
   let valueButtonEleEdit = valueRow.querySelector('button#value-edit-button')
   let valueTextEdit = valueTextEleEdit.innerHTML
 
-  valueTextEleEdit.outerHTML = '<div class="col-9" id="value-changeable"><input id="value-changeable-input" type="text" placeholder="' + valueTextEdit + '"></div>'
-  valueButtonEleEdit.outerHTML = '<button id="value-save-button" type="button">Save</button>'
+  valueTextEleEdit.outerHTML = '<div class="col-9" id="value-changeable"><input id="value-changeable-input" type="text" placeholder="' + valueTextEdit + '" name="' + valueTextEdit + '"></div>'
+  valueButtonEleEdit.outerHTML = '<button id="value-save-button" type="submit">Save</button>'
 
   let newButtonEle = valueRow.querySelector('button#value-save-button')
   newButtonEle.addEventListener('click', () => {saveClick(valueRow)});
