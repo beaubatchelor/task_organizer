@@ -1,39 +1,78 @@
 const valuesDrag = document.querySelectorAll('.value-draggable')
-const tables = document.querySelectorAll('#value-body')
+const tablesBodies = document.querySelectorAll('#value-body')
 const valueRows = document.querySelectorAll('div#value-row')
+const tables = document.querySelectorAll('table')
 
+function saveValues() {
+  let orgEntry = []
+  tables.forEach(table => {
+    let categoryEle = table.querySelector('div.category')
+    let valuesEle = table.querySelectorAll('div.value')
+    let categoryText = categoryEle.innerHTML
+
+    let tableEntry = {
+      'category' : categoryText,
+      'values' : []
+    }
+
+    valuesEle.forEach(valueEle => {
+      let valueText = valueEle.innerHTML
+      tableEntry.values.push(valueText)
+    })
+
+    orgEntry.push(tableEntry)
+  })
+  console.log(orgEntry)
+
+  fetch(window.origin + '/update-values', {
+    method: 'POST',
+    credentials: 'include',
+    body: JSON.stringify(orgEntry),
+    cache: 'no-cache',
+    headers: new Headers({
+      'content-type': 'application/json'
+    })
+  })
+}
+
+// BUTTONS CLICK FUNCITION
 function editClick(valueRow) {
   let valueTextEleEdit = valueRow.querySelector('div#value-changeable')
   let valueButtonEleEdit = valueRow.querySelector('button#value-edit-button')
   let valueTextEdit = valueTextEleEdit.innerHTML
 
-  valueTextEleEdit.outerHTML = '<div class="col-9" id="value-changeable"><input id="value-changeable-input" type="text" placeholder="' + valueTextEdit + '" name="' + valueTextEdit + '"></div>'
-  valueButtonEleEdit.outerHTML = '<button id="value-save-button" type="submit">Save</button>'
+  valueTextEleEdit.innerHTML = '<input id="value-changeable-input" type="text" placeholder="' + valueTextEdit + '">'
+  valueButtonEleEdit.outerHTML = '<button id="value-save-button" type="button">Save</button>'
+
 
   let newButtonEle = valueRow.querySelector('button#value-save-button')
-  newButtonEle.addEventListener('click', () => {saveClick(valueRow)});
-};
+  newButtonEle.addEventListener('click', () => {
+    saveClick(valueRow)
+    saveValues()
+  })
+}
 
 function saveClick(valueRow) {
   let valueTextEleSave = valueRow.querySelector('div#value-changeable')
   let valueButtonEleSave = valueRow.querySelector('button#value-save-button')
   let valueTextSave = valueRow.querySelector('input#value-changeable-input').value
 
-  valueTextEleSave.outerHTML = '<div class="col-9" id="value-changeable">' + valueTextSave + '</div>'
-  valueButtonEleSave.outerHTML = '<button id="value-edit-button" type="button">Edit</button>'
+  valueTextEleSave.innerHTML =  valueTextSave
+  valueButtonEleSave.innerHTML = 'Edit'
+  valueButtonEleSave.id = 'value-edit-button'
 
   let newButtonEle = valueRow.querySelector('button#value-edit-button')
-  newButtonEle.addEventListener('click', () => {editClick(valueRow)});
-};
+  newButtonEle.addEventListener('click', () => {editClick(valueRow)})
+}
 
 valueRows.forEach(valueRow => {
   const valueButtonEle = valueRow.querySelector('button#value-edit-button')
   valueButtonEle.addEventListener('click', () => {editClick(valueRow)})
 })
+// 
 
 
-
-
+// BUTTONS MOVEMENT FUNCITION
 valuesDrag.forEach(valuesDrag => {
     valuesDrag.addEventListener('dragstart', () => {
         valuesDrag.classList.add('dragging')
@@ -44,7 +83,7 @@ valuesDrag.forEach(valuesDrag => {
     })
 })
 
-tables.forEach(table => {
+tablesBodies.forEach(table => {
     table.addEventListener('dragover', e => {
         e.preventDefault()
         const afterElement = moveValue(table, e.clientY)
@@ -70,3 +109,4 @@ function moveValue(table, y) {
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element
 }
+// 
