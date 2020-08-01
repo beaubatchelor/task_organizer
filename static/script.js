@@ -9,21 +9,16 @@ function saveValues() {
     let categoryEle = table.querySelector('div.category')
     let valuesEle = table.querySelectorAll('div.value')
     let categoryText = categoryEle.innerHTML
-
     let tableEntry = {
       'category' : categoryText,
       'values' : []
     }
-
     valuesEle.forEach(valueEle => {
       let valueText = valueEle.innerHTML
       tableEntry.values.push(valueText)
     })
-
     orgEntry.push(tableEntry)
   })
-  console.log(orgEntry)
-
   fetch(window.origin + '/update-values', {
     method: 'POST',
     credentials: 'include',
@@ -79,7 +74,7 @@ valuesDrag.forEach(valuesDrag => {
     })
 
     valuesDrag.addEventListener('dragend', () => {
-        valuesDrag.classList.remove('dragging')     
+        valuesDrag.classList.remove('dragging')
     })
 })
 
