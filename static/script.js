@@ -1,11 +1,60 @@
 const valuesDrag = document.querySelectorAll('.value-draggable')
-const tablesBodies = document.querySelectorAll('#value-body')
+const tableBodies = document.querySelectorAll('#value-body')
 const valueRows = document.querySelectorAll('div#value-row')
 const tables = document.querySelectorAll('table')
 
+
+// ADD VALUES
+function rowChange(tableRow) {
+  tableRow.classList.remove('new-row')
+  tableRow.classList.add('value-draggable')
+  tableRow.setAttribute('draggable', 'true')
+}
+
+tables.forEach(table => {
+  let rowLen = table.querySelectorAll('tr').length
+  let tr = table.insertRow(rowLen)
+  let td = tr.insertCell(0)
+  let containerDiv = document.createElement('div')
+  let rowDiv = document.createElement('div')
+  let colTextDiv = document.createElement('div')
+  let colButDiv = document.createElement('div')
+  let addButton = document.createElement('button')
+
+  tr.classList.add('new-row')
+  containerDiv.classList.add('container')
+  rowDiv.classList.add('row')
+  rowDiv.setAttribute('id', 'value-row')
+  colTextDiv.classList.add('col-9')
+  colTextDiv.setAttribute('id', 'value-changeable')
+  colButDiv.classList.add('col-3')
+  addButton.classList.add('value-button')
+  addButton.setAttribute('id', 'value-add-button')
+  addButton.setAttribute('type', 'button')
+  addButton.innerHTML = '+'
+
+
+  colButDiv.appendChild(addButton)
+  rowDiv.appendChild(colTextDiv)
+  rowDiv.appendChild(colButDiv)
+  containerDiv.appendChild(rowDiv)
+  td.appendChild(containerDiv)
+
+  let newButton = table.querySelector('button#value-add-button')
+  newButton.setAttribute('id', 'value-edit-button')
+  newButton.addEventListener('click', () => {
+    rowChange(tr)
+    editClick(rowDiv)
+  })
+  // newButton.addEventListener('click', editClick(rowDiv))
+})
+// 
+
+// SAVE CHANGES
 function saveValues() {
+  let tablesCurrent = document.querySelectorAll('table')
   let orgEntry = []
-  tables.forEach(table => {
+  tablesCurrent.forEach(table => {
     let categoryEle = table.querySelector('div.category')
     let valuesEle = table.querySelectorAll('div.value')
     let categoryText = categoryEle.innerHTML
@@ -29,6 +78,7 @@ function saveValues() {
     })
   })
 }
+// 
 
 // BUTTONS CLICK FUNCITION
 function editClick(valueRow) {
@@ -67,7 +117,7 @@ valueRows.forEach(valueRow => {
 // 
 
 
-// BUTTONS MOVEMENT FUNCITION
+// ROW MOVEMENT FUNCITION
 valuesDrag.forEach(valuesDrag => {
     valuesDrag.addEventListener('dragstart', () => {
         valuesDrag.classList.add('dragging')
@@ -78,7 +128,7 @@ valuesDrag.forEach(valuesDrag => {
     })
 })
 
-tablesBodies.forEach(table => {
+tableBodies.forEach(table => {
     table.addEventListener('dragover', e => {
         e.preventDefault()
         const afterElement = moveValue(table, e.clientY)

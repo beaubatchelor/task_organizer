@@ -19,8 +19,8 @@
               </th>
             </tr>
           </thead>
-          {% for value in category['values'] %}
           <tbody id="value-body">
+          {% for value in category['values'] %}
             <tr class="value-draggable" draggable="true">
               <td>
                 <div class="container">
@@ -31,8 +31,8 @@
                 </div>
               </td>
             </tr>
-          </tbody>
           {% endfor %}
+          </tbody>
         </table>
       </div>
       {% endfor %}   
