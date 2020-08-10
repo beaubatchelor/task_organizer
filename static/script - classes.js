@@ -26,31 +26,25 @@ class TextAndButton {
     this.button.addEventListener('click', () => {this.editClick()})
   }
 }
-// class Row {
-//   constructor (valueRow) {
-//     this.textAndButton = new TextAndButton(valueRow.querySelector('div#value-row'))
-//     this.valueRow = valueRow
-//   }
-// }
 
-// class ValueRow extends Row{
-//   constructor (valueRow) {
-//     super(valueRow, textAndButton)
-//     this.valueRow.addEventListener('dragstart', () => {
-//       this.valueRow.classList.add('dragging')
-//     })
-
-//     this.valueRow.addEventListener('dragend', () => {
-//       this.valueRow.classList.remove('dragging')
-//     }) 
-//   }
-// }
-
-class ValueRow {
+class Row {
   constructor (valueRow) {
-    this.textAndButton = new TextAndButton(valueRow.querySelector('div#value-row'))
     this.valueRow = valueRow
+    this.textAndButton = new TextAndButton(this.valueRow.querySelector('div#value-row'))
+  }
+}
+
+class HeaderRow extends Row{
+  constructor (headerRow){
+    super(headerRow)
+  }
+}
+
+class ValueRow extends Row{
+  constructor (valueRow) {
+    super(valueRow)
     this.valueRow.addEventListener('dragstart', () => {
+      console.log('Working') // This is for debug
       this.valueRow.classList.add('dragging')
     })
 
@@ -60,8 +54,54 @@ class ValueRow {
   }
 }
 
-const valuesDrags = document.querySelectorAll('.value-draggable')
+class ValueBody {
+  constructor (valueBody) {
+    this.valuesDrags = valueBody.querySelectorAll('tr.value-draggable')
+    this.valuesDrags.forEach(valueRow => {
+      new ValueRow(valueRow)
+    })
+  }
+}
 
-valuesDrags.forEach(valuesDrag => {
-  new ValueRow(valuesDrag)
-})
+class ValueTable {
+  constructor (valueTable) {
+    this.valueTable = valueTable
+    this.headerRows = new HeaderRow(valueTable.querySelector('thead#value-head>tr'))
+    this.valueBody = new ValueBody(valueTable.querySelector('tbody#value-body'))
+  }
+  saveTable() {
+    let categoryEle = this.valueTable.querySelector('div.category')
+    let valuesEle = this.valueTable.querySelectorAll('div.value')
+    let categoryText = categoryEle.innerHTML
+    let tableEntry = {
+      'category' : categoryText,
+      'values' : []
+    }
+    valuesEle.forEach(valueEle => {
+      let valueText = valueEle.innerHTML
+      tableEntry.values.push(valueText)
+    })
+    return tableEntry
+  }
+}
+
+class AllValueTables {
+  constructor (tablesContainer) {
+    this.tablesContainer = tablesContainer
+    this.orgEntry = [] // Data Collection
+    this.allTables = this.tablesContainer.querySelectorAll('table')
+    this.allTables.forEach(valueTable => {
+      let table = new ValueTable(valueTable)
+      let tableEntry = table.saveTable()
+    })
+  }
+  checkOrgEntry(tableEntry) {
+    this.orgEntry.forEach(origTable => {
+      
+    })
+  }
+}
+
+
+const tablesContainer = document.querySelector('div#tables-container')
+const allValueTables = new AllValueTables(tablesContainer)
