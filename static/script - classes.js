@@ -40,6 +40,8 @@ class HeaderRow extends Row{
   }
 }
 
+// git commit -m "adding workable add button and saveing capabilies" 
+
 class ValueRow extends Row{
   constructor (valueRow) {
     super(valueRow)
@@ -54,11 +56,18 @@ class ValueRow extends Row{
   }
 }
 
+class AddRow extends Row{
+  constructor (addRow) {
+    super(addRow)
+  }
+}
+
 class ValueBody {
   constructor (valueBody) {
     this.valuesDrags = valueBody.querySelectorAll('tr.value-draggable')
+    this.addRow = new AddRow(valueBody.querySelector('tr.add-row'))
     this.valuesDrags.forEach(valueRow => {
-      new ValueRow(valueRow)
+      let x = new ValueRow(valueRow)
     })
   }
 }
@@ -88,17 +97,31 @@ class ValueTable {
 class AllValueTables {
   constructor (tablesContainer) {
     this.tablesContainer = tablesContainer
-    this.orgEntry = [] // Data Collection
+    this.organEntry = []
     this.allTables = this.tablesContainer.querySelectorAll('table')
+    this.saveTables()
+    this.allEditButtons = this.tablesContainer.querySelectorAll('button#value-edit-button')
+
+  }
+
+  saveTables() {
+    this.organEntry = []
     this.allTables.forEach(valueTable => {
       let table = new ValueTable(valueTable)
       let tableEntry = table.saveTable()
+      this.organEntry.push(tableEntry)
     })
   }
-  checkOrgEntry(tableEntry) {
-    this.orgEntry.forEach(origTable => {
-      
+
+  saveButton() {
+    console.log(this.organEntry)
+    this.allEditButtons.forEach(editButton => {
+      editButton.addEventListener('click', () => {
+        let saveButton = editButton.querySelector('button#value-save-button')
+        saveButton.addEventListener('click', () => this.saveTables())
+      })
     })
+    console.log(this.organEntry)
   }
 }
 

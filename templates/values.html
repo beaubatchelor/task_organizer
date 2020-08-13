@@ -13,7 +13,9 @@
                 <div class="container">
                   <div class="row" id="value-row">
                     <div class="col-9 category" id="value-changeable">{{category['category']}}</div>
-                    <div class="col-3"><button class="value-button" id="value-edit-button" type="button">Edit</button></div>
+                    <div class="col-3">
+                      <button class="value-button" id="value-edit-button" type="button">Edit</button>
+                    </div>
                   </div>
                 </div>
               </th>
@@ -26,12 +28,26 @@
                 <div class="container">
                   <div class="row" id="value-row">
                     <div class="col-9 value" id="value-changeable">{{value}}</div>
-                    <div class="col-3"><button class="value-button" id="value-edit-button" type="button">Edit</button></div>
+                    <div class="col-3">
+                      <button class="value-button" id="value-edit-button" type="button">Edit</button>
+                    </div>
                   </div>
                 </div>
               </td>
             </tr>
           {% endfor %}
+          <tr class="add-row">
+            <td>
+              <div class="container">
+                <div class="row" id="value-row">
+                  <div class="col-9 add" id="value-changeable"></div>
+                  <div class="col-3">
+                    <button class="value-button" id="value-edit-button" type="button">+</button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -39,7 +55,8 @@
     </div>
     <div class="row" id="save-button-container">
       <div class="col-3">
-        <button class="value-button" type="button" onclick="saveValues()">Save Values</button>
+        <!-- <button class="value-button" type="button" onclick="saveValues()">Save Values</button> -->
+        <button class="value-button" type="button" >Save Values</button>
       </div>
     </div>
   </div>
