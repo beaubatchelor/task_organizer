@@ -40,13 +40,11 @@ class HeaderRow extends Row{
   }
 }
 
-// git commit -m "adding workable add button and saveing capabilies" 
-
 class ValueRow extends Row{
   constructor (valueRow) {
     super(valueRow)
     this.valueRow.addEventListener('dragstart', () => {
-      console.log('Working') // This is for debug
+      // console.log('Working') // This is for debug
       this.valueRow.classList.add('dragging')
     })
 
@@ -64,11 +62,37 @@ class AddRow extends Row{
 
 class ValueBody {
   constructor (valueBody) {
+    this.valueBody = valueBody
     this.valuesDrags = valueBody.querySelectorAll('tr.value-draggable')
     this.addRow = new AddRow(valueBody.querySelector('tr.add-row'))
+    this.addButton = this.addRow.querySelector('button#value-edit-button')
     this.valuesDrags.forEach(valueRow => {
       let x = new ValueRow(valueRow)
     })
+    this.valueBody.addEventListener('dragover', e => {
+      e.preventDefault()
+      const afterElement = this.moveValue(this.valueBody, e.clientY)
+      const draggable = document.querySelector('.dragging')
+      if (afterElement == null) {
+          this.valueBody.appendChild(draggable)
+        } else {
+          this.valueBody.insertBefore(draggable, afterElement)
+        }
+    })
+    this.addButton.addEventListener('click', )
+  }
+  moveValue(table, y) {
+    const draggableValues = [...table.querySelectorAll('.value-draggable:not(.dragging)')]
+    
+    return draggableValues.reduce((closest, child) => {
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height / 2
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child }
+        } else {
+          return closest
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element
   }
 }
 

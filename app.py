@@ -5,8 +5,8 @@ import datetime as dt
 from config import user, psw
 from pprint import pprint as pp
 
-app.config["MONGO_URI"] = f"mongodb+srv://{user}:{psw}@valutask.wqycs.azure.mongodb.net/Site" ## production connection
-mongo = PyMongo(app)
+# app.config["MONGO_URI"] = f"mongodb+srv://{user}:{psw}@valutask.wqycs.azure.mongodb.net/Site" ## production connection
+# mongo = PyMongo(app)
 
 test_data = {"_id":{"$oid":"5f0a6b880c689113c019b670"},
 "user":"test_user",
@@ -19,8 +19,8 @@ def index():
 
 @app.route('/organizations')
 def organizations():
-    user_data = mongo.db.User.find_one({'user': 'test_user'}) ##production data
-    # user_data = test_data ##for test data
+    # user_data = mongo.db.User.find_one({'user': 'test_user'}) ##production data
+    user_data = test_data ##for test data
     org_data = user_data['org_data']
     
 
@@ -28,16 +28,16 @@ def organizations():
 
 @app.route('/values')
 def values():
-    user_data = mongo.db.User.find_one({'user': 'test_user'}) ##production data
-    # user_data = test_data ##for test data  
+    # user_data = mongo.db.User.find_one({'user': 'test_user'}) ##production data
+    user_data = test_data ##for test data  
     values_data = user_data['values_data']
 
     return render_template('values.html', data=values_data)
 
 @app.route('/tasks')
 def tasks():
-    user_data = mongo.db.User.find_one({'user': 'test_user'}) ##production data
-    # user_data = test_data ##for test data
+    # user_data = mongo.db.User.find_one({'user': 'test_user'}) ##production data
+    user_data = test_data ##for test data
     task_data = user_data['task_data']
 
     return render_template('tasks.html', data=task_data)
