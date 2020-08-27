@@ -6,7 +6,7 @@
     <div class="row" id="tables-container">
       {% for category in data %}
       <div class="col">
-        <table class="table table-hover table-draggable" draggable="true">
+        <table class="table table-hover table-draggable">
           <thead id="value-head">
             <tr>
               <th>
@@ -36,18 +36,18 @@
               </td>
             </tr>
           {% endfor %}
-          <tr class="add-row">
-            <td>
-              <div class="container">
-                <div class="row" id="value-row">
-                  <div class="col-9 add" id="value-changeable"></div>
-                  <div class="col-3">
-                    <button class="value-button" id="value-edit-button" type="button">+</button>
+            <tr class="value-draggable add-row">
+              <td>
+                <div class="container">
+                  <div class="row" id="value-row">
+                    <div class="col-9 add" id="value-changeable"></div>
+                    <div class="col-3">
+                      <button class="value-button" id="value-edit-button" type="button">+</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -56,7 +56,7 @@
     <div class="row" id="save-button-container">
       <div class="col-3">
         <!-- <button class="value-button" type="button" onclick="saveValues()">Save Values</button> -->
-        <button class="value-button" type="button" >Save Values</button>
+        <button class="value-button" type="button" onclick="saveValues()" >Save Values</button>
       </div>
     </div>
   </div>

@@ -6,9 +6,13 @@ class TextAndButton {
     this.button.addEventListener('click', () => {this.editClick()})
   }
   editClick() {
-    let valueTextEdit = this.value.innerHTML
-  
-    this.value.innerHTML = '<input id="value-changeable-input" type="text" placeholder="' + valueTextEdit + '">'
+    if (this.button.innerHTML != '+') {
+      this.valueTextEdit = this.value.innerHTML
+    }else if (this.button.innerHTML == '+') {
+      this.valueTextEdit = 'New Value'
+    }
+
+    this.value.innerHTML = '<input id="value-changeable-input" type="text" placeholder="' + this.valueTextEdit + '">'
     this.button.outerHTML = '<button id="value-save-button" type="button">Save</button>'
   
   
@@ -64,8 +68,10 @@ class ValueBody {
   constructor (valueBody) {
     this.valueBody = valueBody
     this.valuesDrags = valueBody.querySelectorAll('tr.value-draggable')
-    this.addRow = new AddRow(valueBody.querySelector('tr.add-row'))
+    this.addRow = valueBody.querySelector('tr.add-row')
+    this.addRowClass = new AddRow(this.addRow)
     this.addButton = this.addRow.querySelector('button#value-edit-button')
+    console.log(this.addButton.innerHTML)
     this.valuesDrags.forEach(valueRow => {
       let x = new ValueRow(valueRow)
     })
@@ -79,7 +85,7 @@ class ValueBody {
           this.valueBody.insertBefore(draggable, afterElement)
         }
     })
-    this.addButton.addEventListener('click', )
+    // this.addButton.addEventListener('click', )
   }
   moveValue(table, y) {
     const draggableValues = [...table.querySelectorAll('.value-draggable:not(.dragging)')]
@@ -123,32 +129,63 @@ class AllValueTables {
     this.tablesContainer = tablesContainer
     this.organEntry = []
     this.allTables = this.tablesContainer.querySelectorAll('table')
-    this.saveTables()
+    this.allTables.forEach(valueTable => {new ValueTable(valueTable)})
+    // this.saveTables()
     this.allEditButtons = this.tablesContainer.querySelectorAll('button#value-edit-button')
 
   }
 
-  saveTables() {
-    this.organEntry = []
-    this.allTables.forEach(valueTable => {
-      let table = new ValueTable(valueTable)
-      let tableEntry = table.saveTable()
-      this.organEntry.push(tableEntry)
-    })
-  }
+  // saveTables() {
+  //   this.organEntry = []
+  //   this.allTables.forEach(valueTable => {
+  //     let table = new ValueTable(valueTable)
+  //     let tableEntry = table.saveTable()
+  //     this.organEntry.push(tableEntry)
+  //   })
+  // }
 
-  saveButton() {
-    console.log(this.organEntry)
-    this.allEditButtons.forEach(editButton => {
-      editButton.addEventListener('click', () => {
-        let saveButton = editButton.querySelector('button#value-save-button')
-        saveButton.addEventListener('click', () => this.saveTables())
-      })
-    })
-    console.log(this.organEntry)
-  }
+  // saveButton() {
+  //   console.log(this.organEntry)
+  //   this.allEditButtons.forEach(editButton => {
+  //     editButton.addEventListener('click', () => {
+  //       let saveButton = editButton.querySelector('button#value-save-button')
+  //       saveButton.addEventListener('click', () => this.saveTables())
+  //     })
+  //   })
+  //   console.log(this.organEntry)
+  // }
 }
 
+// SAVE CHANGES
+function saveValues() {
+  let tablesCurrent = document.querySelectorAll('table')
+  let orgEntry = []
+  tablesCurrent.forEach(table => {
+    let categoryEle = table.querySelector('div.category')
+    let valuesEle = table.querySelectorAll('div.value')
+    let categoryText = categoryEle.innerHTML
+    let tableEntry = {
+      'category' : categoryText,
+      'values' : []
+    }
+    valuesEle.forEach(valueEle => {
+      let valueText = valueEle.innerHTML
+      tableEntry.values.push(valueText)
+    })
+    orgEntry.push(tableEntry)
+  })
+  // console.log(orgEntry)
+  fetch(window.origin + '/update-values', {
+    method: 'POST',
+    credentials: 'include',
+    body: JSON.stringify(orgEntry),
+    cache: 'no-cache',
+    headers: new Headers({
+      'content-type': 'application/json'
+    })
+  })
+}
+// 
 
 const tablesContainer = document.querySelector('div#tables-container')
 const allValueTables = new AllValueTables(tablesContainer)
